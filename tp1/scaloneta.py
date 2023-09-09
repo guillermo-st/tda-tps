@@ -7,6 +7,12 @@ class Analysis:
 
     def __str__(self):
         return str(self.si) + ", " + str(self.ai)
+    
+    def __lt__(self, otherAnalysis):
+        return(self.ai > otherAnalysis.ai or (self.ai == otherAnalysis.ai and self.si < otherAnalysis.si))
+    
+    def __eq__(self, otherAnalysis):
+        return (self.ai == otherAnalysis.ai and self.si == otherAnalysis.si)
 
 def readAnalysisFile(filename):
     analysis_list = []
