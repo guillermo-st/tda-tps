@@ -1,6 +1,6 @@
 import sys
 
-class Analysis:
+class MatchReview:
     def __init__(self, si, ai):
         self.si = si # coach analysis duration
         self.ai = ai # helper analysis duration
@@ -8,14 +8,14 @@ class Analysis:
     def __str__(self):
         return str(self.si) + ", " + str(self.ai)
     
-    def __lt__(self, otherAnalysis):
-        return(self.ai > otherAnalysis.ai or (self.ai == otherAnalysis.ai and self.si < otherAnalysis.si))
+    def __lt__(self, otherReview):
+        return(self.ai > otherReview.ai or (self.ai == otherReview.ai and self.si < otherReview.si))
     
-    def __eq__(self, otherAnalysis):
-        return (self.ai == otherAnalysis.ai and self.si == otherAnalysis.si)
+    def __eq__(self, otherReview):
+        return (self.ai == otherReview.ai and self.si == otherReview.si)
 
-def readAnalysisFile(filename):
-    analysis_list = []
+def read_reviews_file(filename):
+    review_list = []
     with open(filename, "r") as file:
         for line in file:
             si, ai = line.split(",")
@@ -23,10 +23,25 @@ def readAnalysisFile(filename):
             if not si.strip().isdigit() or not ai.strip().isdigit():
                 continue 
             
-            analysis = Analysis(int(si), int(ai))
-            analysis_list.append(analysis)
+            mr = MatchReview(int(si), int(ai))
+            review_list.append(mr)
 
-    return analysis_list
+    return review_list
+
+def full_review_time(review_list):
+
+    sorted_reviews = sorted(review_list)
+
+    curr_si = 0
+    curr_ai = 0
+
+    for review in sorted_reviews:
+        curr_si += review.si
+        curr_ai = max(curr_ai, curr_si + review.ai)
+
+    return curr_ai
+
+
 
 
 def main():
@@ -34,8 +49,9 @@ def main():
         print("not enough arguments")
         return
     
-    analysis_list = readAnalysisFile(sys.argv[1])
+    review_list = read_reviews_file(sys.argv[1])
 
+    print(full_review_time(review_list))
 
 if __name__ == "__main__":
     main()
