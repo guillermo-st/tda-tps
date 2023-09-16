@@ -45,11 +45,15 @@ def full_review_time(review_list):
 
 
 def main():
-    if len(sys.argv) < 2:
-        print("not enough arguments")
+    if len(sys.argv) != 2:
+        print("Incorrect amount of arguments. " + "Usage: " + sys.argv[0] + " <filename>")
         return
-    
-    review_list = read_reviews_file(sys.argv[1])
+
+    try:
+        review_list = read_reviews_file(sys.argv[1])
+    except:
+        print("Error reading file " + sys.argv[1] + ". Check file format.")
+        return
 
     print(full_review_time(review_list))
 
