@@ -1,35 +1,39 @@
 import sys
 
+
 class MatchReview:
     def __init__(self, si, ai):
-        self.si = si # coach analysis duration
-        self.ai = ai # helper analysis duration
+        self.si = si  # coach analysis duration
+        self.ai = ai  # helper analysis duration
 
     def __str__(self):
         return str(self.si) + ", " + str(self.ai)
-    
+
     def __lt__(self, otherReview):
-        return(self.ai > otherReview.ai or (self.ai == otherReview.ai and self.si < otherReview.si))
-    
+        return self.ai > otherReview.ai or (
+            self.ai == otherReview.ai and self.si < otherReview.si
+        )
+
     def __eq__(self, otherReview):
-        return (self.ai == otherReview.ai and self.si == otherReview.si)
+        return self.ai == otherReview.ai and self.si == otherReview.si
+
 
 def read_reviews_file(filename):
     review_list = []
     with open(filename, "r") as file:
         for line in file:
             si, ai = line.split(",")
-            
+
             if not si.strip().isdigit() or not ai.strip().isdigit():
-                continue 
-            
+                continue
+
             mr = MatchReview(int(si), int(ai))
             review_list.append(mr)
 
     return review_list
 
-def full_review_time(review_list):
 
+def full_review_time(review_list):
     sorted_reviews = sorted(review_list)
 
     curr_si = 0
@@ -42,11 +46,11 @@ def full_review_time(review_list):
     return curr_ai
 
 
-
-
 def main():
     if len(sys.argv) != 2:
-        print("Incorrect amount of arguments. " + "Usage: " + sys.argv[0] + " <filename>")
+        print(
+            "Incorrect amount of arguments. " + "Usage: " + sys.argv[0] + " <filename>"
+        )
         return
 
     try:
@@ -56,6 +60,7 @@ def main():
         return
 
     print(full_review_time(review_list))
+
 
 if __name__ == "__main__":
     main()
