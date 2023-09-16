@@ -33,6 +33,10 @@ def read_reviews_file(filename):
     return review_list
 
 
+def sort_reviews(review_list):
+    return sorted(review_list)
+
+
 def full_review_time(review_list):
     sorted_reviews = sorted(review_list)
 
@@ -59,6 +63,7 @@ def main():
         print("Error reading file " + sys.argv[1] + ". Check file format.")
         return
 
+    review_list = sort_reviews(review_list)
     print(full_review_time(review_list))
 
 

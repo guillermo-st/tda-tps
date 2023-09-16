@@ -26,3 +26,4 @@ if __name__ == "__main__":
             continue
         filename = "testcase_" + str(i * 100) + ".txt"
         random_list_to_file(i * 100, filename)
+        print("Generated " + filename)
