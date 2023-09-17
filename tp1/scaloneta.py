@@ -38,12 +38,10 @@ def sort_reviews(review_list):
 
 
 def full_review_time(review_list):
-    sorted_reviews = sorted(review_list)
-
     curr_si = 0
     curr_ai = 0
 
-    for review in sorted_reviews:
+    for review in review_list:
         curr_si += review.si
         curr_ai = max(curr_ai, curr_si + review.ai)
 
@@ -59,13 +57,11 @@ def main():
 
     try:
         review_list = read_reviews_file(sys.argv[1])
+        sorted_review_list = sort_reviews(review_list)
+        print(full_review_time(sorted_review_list))
     except:
         print("Error reading file " + sys.argv[1] + ". Check file format.")
         return
-
-    review_list = sort_reviews(review_list)
-    print(full_review_time(review_list))
-
 
 if __name__ == "__main__":
     main()
