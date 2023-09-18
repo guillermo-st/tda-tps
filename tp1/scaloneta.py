@@ -7,7 +7,7 @@ class MatchReview:
         self.ai = ai  # helper analysis duration
 
     def __str__(self):
-        return str(self.si) + ", " + str(self.ai)
+        return "Si: " + str(self.si) + ", Ai: " + str(self.ai)
 
     def __lt__(self, otherReview):
         return self.ai > otherReview.ai or (
@@ -17,6 +17,12 @@ class MatchReview:
     def __eq__(self, otherReview):
         return self.ai == otherReview.ai and self.si == otherReview.si
 
+def show_reviews(review_list):
+    print("Matches will be reviewed in the following order:")
+    i = 1
+    for r in review_list:
+        print("Match " + str(i) + ": " + str(r))
+        i += 1
 
 def read_reviews_file(filename):
     review_list = []
@@ -58,6 +64,9 @@ def main():
     try:
         review_list = read_reviews_file(sys.argv[1])
         sorted_review_list = sort_reviews(review_list)
+        show_reviews(sorted_review_list)
+
+        print("Full analysis duration is:")
         print(full_review_time(sorted_review_list))
     except:
         print("Error reading file " + sys.argv[1] + ". Check file format.")
