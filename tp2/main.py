@@ -5,56 +5,41 @@ def parse_input(file_name):
     with open(file_name, 'r') as f:
         lines = f.readlines()
         n = int(lines[0])
-        E, S = [], []
+        e, s = [], []
         for i in range(n):
-            E.append(int(lines[i + 1]))
-        for i in range(n):
-            S.append(int(lines[i + n + 1]))
-    return n, E, S
+            e.append(int(lines[i + 1]))
+            s.append(int(lines[i + n + 1]))
+    return n, e, s
 
 
-def earning(G, E, S, i, d):
-    if i == 0:
-        return min(E[0], S[0]), d
-
-    if i == 1:
-        no_break_earning = G[i - 1] + min(E[i], S[i - d])
-        break_earning = 0 + min(E[i], S[0])
-        break_before_earning = 0
-    elif i == 2:
-        break_before_earning = 0 + min(E[i - 1], S[0]) + min(E[i], S[1])
-        no_break_earning = G[i - 1] + min(E[i], S[i - d])
-        break_earning = G[i - 2] + min(E[i], S[0])
-    else:
-        break_before_earning = G[i - 3] + min(E[i - 1], S[0]) + min(E[i], S[1])
-        no_break_earning = G[i - 1] + min(E[i], S[i - d])
-        break_earning = G[i - 2] + min(E[i], S[0])
-
-    if break_before_earning >= break_earning and break_before_earning >= no_break_earning:
-        return break_before_earning, i - 1
-
-    if break_earning >= no_break_earning:
-        return break_earning, i
-    return no_break_earning, d
+# EC de recurrencia:
+# g_max(dia, cant_entrenamientos_consecutivos):
+#   si cant_entrenamientos_consecutivos es 0:
+#      g_max(dia - 1)
+#   sino:
+#      g_max(dia - 1, cant_entrenamientos_consecutivos - 1) + min(e[dia - 1], s[cant_entrenamientos_consecutivos - 1])
+#
+# g_max(dia)
+#  max(g_max(dia - 1, 0), g_max(dia - 1, 1), ..., g_max(dia - 1, dia - 1))
 
 
-def main():
-    if len(argv) != 2:
-        print("Usage: python main.py <input_file>")
-        exit(1)
-    file_name = argv[1]
+def g_max(n, e, s):
+    g = [[0 for _ in range(n + 1)] for _ in range(n + 1)]
 
-    n, E, S = parse_input(file_name)
-    G = []
-    d = 0
+    for day in range(1, n + 1):
+        for cons_trainings in range(day + 1):
+            g[day][0] = max(g[day][0], g[day - 1][cons_trainings])
+            if cons_trainings > 0:
+                training_earning = min(e[day - 1], s[cons_trainings - 1])
+                g[day][cons_trainings] = g[day - 1][cons_trainings - 1] + training_earning
 
-    for i in range(n):
-        earn, d = earning(G, E, S, i, d)
-        G.append(earn)
-
-    print(G)
-    print(G[n - 1])
+    return max(g[n])
 
 
 if __name__ == '__main__':
-    main()
+    if len(argv) != 2:
+        print("Uso: python3 main.py <archivo>")
+        exit(1)
+    n, e, s = parse_input(argv[1])
+    print("La ganancia máxima es:", g_max(n, e, s))
+
