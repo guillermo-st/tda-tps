@@ -13,14 +13,7 @@ def parse_input(file_name):
 
 
 # EC de recurrencia:
-# g_max(dia, cant_entrenamientos_consecutivos):
-#   si cant_entrenamientos_consecutivos es 0:
-#      g_max(dia - 1)
-#   sino:
-#      g_max(dia - 1, cant_entrenamientos_consecutivos - 1) + min(e[dia - 1], s[cant_entrenamientos_consecutivos - 1])
-#
-# g_max(dia)
-#  max(g_max(dia - 1, 0), g_max(dia - 1, 1), ..., g_max(dia - 1, dia - 1))
+# OPT(i, j) = max(min(E[i], S[j]) + OPT(i + 1, j + 1), OPT(i + 1, 0))
 
 
 def g_max(n, e, s):
@@ -29,14 +22,14 @@ def g_max(n, e, s):
     max_g = 0
 
     for day in range(1, n + 1):
-        for cons_trainings in range(day + 1):
-            g[day][0] = max(g[day][0], g[day - 1][cons_trainings])
-            if cons_trainings > 0:
-                training_earning = min(e[day - 1], s[cons_trainings - 1])
-                g[day][cons_trainings] = g[day - 1][cons_trainings - 1] + training_earning
+        for energy_index in range(day + 1):
+            g[day][0] = max(g[day][0], g[day - 1][energy_index])
+            if energy_index > 0:
+                training_earning = min(e[day - 1], s[energy_index - 1])
+                g[day][energy_index] = g[day - 1][energy_index - 1] + training_earning
 
-                if g[day][cons_trainings] > max_g:
-                    max_g = g[day][cons_trainings]
+                if g[day][energy_index] > max_g:
+                    max_g = g[day][energy_index]
 
     return g, max_g
 
