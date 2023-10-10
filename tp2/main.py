@@ -40,7 +40,7 @@ def max_index(row):
         if row[i] > max:
             max = row[i]
             max_idx = i
-    
+
     return max_idx
 
 def show_trained_days(g, n):
@@ -53,18 +53,21 @@ def show_trained_days(g, n):
             i -= 1
 
         if i == 0:
-            break 
+            break
 
         print("Dia " + str(i) + ": Descanso")
-        i = i -1
+        i = i - 1
 
 
 if __name__ == '__main__':
     if len(argv) != 2:
         print("Uso: python3 main.py <archivo>")
         exit(1)
-    n, e, s = parse_input(argv[1])
-    g, max_g = g_max(n, e ,s)
-    print("La ganancia máxima es:", max_g)
-    show_trained_days(g, n)
-
+    try:
+        n, e, s = parse_input(argv[1])
+        g, max_g = g_max(n, e, s)
+        print("La ganancia máxima es:", max_g)
+        show_trained_days(g, n)
+    except:
+        print("Hubo un error ejecutando el programa. Revise el archivo de entrada.")
+        exit(1)
