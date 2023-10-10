@@ -4,7 +4,7 @@ Este programa permite encontrar mediante programación dinámica la solución al
 
 ## Prerequisitos
 
-- Asegúrese de tener Python e instalado en su sistema.
+- Asegúrese de tener Python 3 instalado en su sistema.
 
 ## Formato del archivo de entrada
 
@@ -26,13 +26,13 @@ El archivo de entrada debe ser un archivo de texto cuya primera línea es un nú
 2. Ejecute el programa con el siguiente comando:
 
 ```
-./main.py <ruta-de-archivo>
+python3 main.py <ruta-de-archivo>
 ```
 
 Reemplace `<ruta-de-archivo>` con la ubicación y nombre del archivo que desea usar como entrada. Por ejemplo:
 
 ```
-./main.py testcases/10.txt
+python3 main.py testcases/10.txt
 ```
 
 Después de ejecutar el comando anterior, el programa procesará el archivo de entrada y le mostrará el resultado.
