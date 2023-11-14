@@ -24,8 +24,7 @@ def greedy_hitting_set(A, B):
 	while not len(B) == 0: 
 		sorted_as_with_matching_bs = sort_most_matched_elements(A, B)
 		(most_matched_a, matching_bs) = sorted_as_with_matching_bs[0]
-		print(most_matched_a, matching_bs)
-		B = list(set(B) - set(matching_bs))
+		B = [b for b in B if b not in matching_bs]	
 		C.add(most_matched_a)
 		A.remove(most_matched_a)
 
@@ -33,16 +32,20 @@ def greedy_hitting_set(A, B):
 
  
 def main():
-    argv = sys.argv
-    if len(argv) != 2:
-        print('Usage: python3 greedy.py <filename>')
-        return
+	argv = sys.argv
+	if len(argv) != 2:
+		print('Usage: python3 greedy.py <filename>')
+		return
 
-    filename = argv[1]
+	filename = argv[1]
 
-    A, B = parse_file(filename)
-    C = greedy_hitting_set(A, B)
-    print(C)
+	try:
+		A, B = parse_file(filename)
+	except:
+		print('Error: check your input file')
+		return
+	C = greedy_hitting_set(A, B)
+	print(C)
 
 
 if __name__ == '__main__':
