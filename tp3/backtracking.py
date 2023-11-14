@@ -1,6 +1,7 @@
 import sys
 from common import parse_file, is_feasible
 
+
 def _hitting_set_rec(A, B, k, C, i):
     if len(C) > k:
         return None
@@ -16,23 +17,34 @@ def _hitting_set_rec(A, B, k, C, i):
     return _hitting_set_rec(A, B, k, C, i+1)
 
 
-def hitting_set(A, B, k):
-    C = set()
-    return _hitting_set_rec(A, B, k, C, 0)
+def hitting_set(A, B):
+    low, high = 0, len(A)
+    C = None
+    while low < high:
+        mid = (low + high) // 2
+        res = _hitting_set_rec(A, B, mid, set(), 0)
+        if res:
+            if not C:
+                C = res.copy()
+            elif len(res) < len(C):
+                C = res.copy()
+            high = mid
+        else:
+            low = mid + 1
+    return C
 
 
 def main():
     argv = sys.argv
-    if len(argv) != 3:
-        print('Usage: python3 backtracking.py <filename> <k>')
+    if len(argv) != 2:
+        print('Usage: python3 backtracking.py <filename>')
         return
 
     filename = argv[1]
-    k = int(argv[2])
 
     try:
         A, B = parse_file(filename)
-        C = hitting_set(A, B, k)
+        C = hitting_set(A, B)
         print(C)
     except:
         print('Error: check your input file')
