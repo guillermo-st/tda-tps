@@ -10,7 +10,7 @@ def lineal_hitting_set(A, B):
     for b in B:
         prob += pulp.lpSum([x[a] for a in b]) >= 1
     prob.solve(pulp.PULP_CBC_CMD(msg=False))
-    return [a for a in A if x[a].value() == 1]
+    return set(a for a in A if x[a].value() == 1)
 
 
 def main():
