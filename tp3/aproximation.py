@@ -11,7 +11,6 @@ def aproximated_hitting_set(A, B):
     prob += sum(x[a] for a in A)
     prob.solve(pulp.PULP_CBC_CMD(msg=False))
     b = max(len(b) for b in B)
-    print(b)
     return set(a for a in A if x[a].value() >= 1/b)
 
 
